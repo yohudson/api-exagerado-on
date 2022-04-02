@@ -13,9 +13,9 @@ exports.getGender = async(id) => {
 }
 
 exports.saveGender = async(gender) => {
-    const existingGender = await gendersData.getGenderByName(gender);
+    const existingGender = await gendersData.getGenderByName(gender.nome);
     if (existingGender) throw new Error('Gênero já existe')
-    return gendersData.saveGender(gender);
+    return gendersData.saveGender(gender.nome);
 }
 
 exports.deleteGender = (id) => {
@@ -24,5 +24,5 @@ exports.deleteGender = (id) => {
 
 exports.updateGender = async(id, gender) => {
     await exports.getGender(id)
-    return gendersData.updateGender(id, gender);
+    return gendersData.updateGender(id, gender.nome);
 }

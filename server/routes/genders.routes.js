@@ -21,7 +21,7 @@ router.get('/gender/:id', async(req, res, next) => {
     }
 });
 
-router.post('/gender', async(req, res, next) => {
+router.post('/genders', async(req, res, next) => {
     const gender = req.body;
     try {
         const newGender = await genderService.saveGender(gender);

@@ -5,7 +5,7 @@ exports.getUsers = () => {
 }
 
 exports.getUser = (id) => {
-    return database.oneOrNone('SELECT * FROM users WHERE user_id = $1', [id]);
+    return database.oneOrNone('SELECT * FROM users WHERE user_uuid = $1', [id]);
 }
 
 exports.getUserByEmail = (email) => {
@@ -13,13 +13,13 @@ exports.getUserByEmail = (email) => {
 }
 
 exports.saveUser = (user) => {
-    return database.one('INSERT INTO users (nome, email) VALUES ($1, $2) RETURNING *', [user.nome, user.email]);
+    return database.one('INSERT INTO users (user_uuid, nome, telefone, email, data_nascimento, genero, senha) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [user.user_uuid, user.nome, user.telefone, user.email, user.data_nascimento, user.genero, user.senha]);
 }
 
 exports.deleteUser = (id) => {
-    return database.none('DELETE FROM users WHERE user_id = $1', [id]);
+    return database.none('DELETE FROM users WHERE user_uuid = $1', [id]);
 }
 
 exports.updateUser = (id, user) => {
-    return database.none('UPDATE users SET nome = $1, email = $2 WHERE user_id = $3', [user.nome, user.email, id]);
+    return database.none('UPDATE users SET nome = $1, telefone = $2, email = $3, data_nascimento = $4, genero = $5, senha = $6 WHERE user_uuid = $7', [user.nome, user.telefone, user.email, user.data_nascimento, user.genero, user.senha, id]);
 }
