@@ -13,7 +13,7 @@ exports.getUserByEmail = (email) => {
 }
 
 exports.saveUser = (user) => {
-    return database.one('INSERT INTO users (user_uuid, nome, telefone, email, data_nascimento, genero, senha) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [user.user_uuid, user.nome, user.telefone, user.email, user.data_nascimento, user.genero, user.senha]);
+    return database.one('INSERT INTO users (nome, telefone, email, data_nascimento, genero, senha) VALUES ($1, $2, $3, $4, $5, $6,) RETURNING *', [user.nome, user.telefone, user.email, user.data_nascimento, user.genero, user.senha]);
 }
 
 exports.deleteUser = (id) => {
