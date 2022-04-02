@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const axios = require('axios');
-const userService = require('../service/users.service')
+const userService = require('../service/users.service');
+const genderService = require('../service/genders.service');
 
 const generate = (val) => {
     return crypto.randomBytes(val).toString('hex');
@@ -10,6 +11,7 @@ const request = (url, method, data) => {
     return axios({ url, method, data, validateStatus: false })
 }
 
+//usuarios
 test('should get users', async() => {
     const user1 = await userService.saveUser({ nome: generate(3), email: generate(3) })
     const user2 = await userService.saveUser({ nome: generate(3), email: generate(3) })
@@ -64,4 +66,60 @@ test('should delete an user', async() => {
     expect(response.status).toBe(204)
     const users = await userService.getUsers();
     expect(users).toHaveLength(0);
+})
+
+//generos
+test.only('should save and get genders', async() => {
+    const gender1 = await genderService.saveGender({ nome: generate(1) })
+    const gender2 = await genderService.saveGender({ nome: generate(1) })
+    const response = await request('http://localhost:3000/genders', 'GET');
+    expect(response.status).toBe(200);
+    const genders = response.data;
+    expect(genders).toHaveLength(2)
+    await genderService.deleteGender(gender1.genero_id)
+    await genderService.deleteGender(gender2.genero_id)
+})
+
+test('should save new gender', async() => {
+    const gender = { nome: generate(1) };
+    const response = await request('http://localhost:3000/genders', 'POST', user);
+    expect(response.status).toBe(201);
+    const genders = response.data;
+    expect(genders.nome).toBe(genders.nome);
+    await genderService.deleteGender(genders.genero_id);
+})
+
+test('should not save new genders', async() => {
+    const user = { nome: generate(1) };
+    const response1 = await request('http://localhost:3000/genders', 'POST', user);
+    const response2 = await request('http://localhost:3000/genders', 'POST', user);
+    expect(response2.status).toBe(409);
+    const genders = response1.data;
+    await genderService.deleteGender(genders.genero_id);
+})
+
+test('should update an user', async() => {
+    const user = await genderService.saveGender({ nome: generate(1) });
+    user.nome = generate(3);
+    user.email = generate(3);
+    const response = await request(`http://localhost:3000/genders/${user.genero_id}`, 'PUT', user);
+    expect(response.status).toBe(204)
+    const updateUser = await genderService.getUser(user.genero_id)
+    expect(updateUser.nome).toBe(user.nome);
+    expect(updateUser.email).toBe(user.email);
+    await genderService.deleteGender(updateUser.genero_id);
+})
+
+test('should not update an user', async() => {
+    const user = { id: 1 };
+    const response = await request(`http://localhost:3000/genders/${user.genero_id}`, 'PUT', user);
+    expect(response.status).toBe(404)
+})
+
+test('should delete an user', async() => {
+    const user = await genderService.saveGender({ nome: generate(1) });
+    const response = await request(`http://localhost:3000/genders/${user.genero_id}`, 'DELETE');
+    expect(response.status).toBe(204)
+    const genders = await genderService.getgenders();
+    expect(genders).toHaveLength(0);
 })
