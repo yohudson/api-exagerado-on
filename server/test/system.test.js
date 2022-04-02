@@ -12,9 +12,9 @@ const request = (url, method, data) => {
 }
 
 //usuarios
-test('should get users', async() => {
-    const user1 = await userService.saveUser({ user_uuid: generate(3), nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) })
-    const user2 = await userService.saveUser({ user_uuid: generate(3), nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) })
+test.only('should get users', async() => {
+    const user1 = await userService.saveUser({ nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) })
+    const user2 = await userService.saveUser({ nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) })
     const response = await request('http://localhost:3000/users', 'GET');
     expect(response.status).toBe(200);
     const users = response.data;
