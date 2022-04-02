@@ -1,4 +1,4 @@
-const database = require('../infra/users.db')
+const database = require('../infra/system.db')
 
 exports.getGenders = () => {
     return database.query('SELECT * FROM genders');

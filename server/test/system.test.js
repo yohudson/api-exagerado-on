@@ -12,7 +12,7 @@ const request = (url, method, data) => {
 }
 
 //usuarios
-test.only('should get users', async() => {
+test('should get users', async() => {
     const user1 = await userService.saveUser({ nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) })
     const user2 = await userService.saveUser({ nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) })
     const response = await request('http://localhost:3000/users', 'GET');
