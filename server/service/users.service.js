@@ -12,8 +12,15 @@ exports.getUser = async(id) => {
     return user;
 }
 
+exports.getUserByEmail = async(email) => {
+    const user = await usersData.getUserByEmail(email);
+    if (!user) throw new Error('Usuário não encontrado');
+    return user;
+}
+
 exports.saveUser = async(user) => {
-    console.log('passo de serviço')
+    console.log('passo serviço')
+    console.log(user)
     const existingUser = await usersData.getUserByEmail(user.email);
     if (existingUser) throw new Error('Usuário já existe')
     return usersData.saveUser(user);

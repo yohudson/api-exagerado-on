@@ -22,12 +22,22 @@ router.get('/users/:id', async(req, res, next) => {
 });
 
 router.post('/users', async(req, res, next) => {
+    console.log('passo rota')
     console.log(req.body)
-    const user = req.body;
-    console.log('passo de rota')
+    const user = req.body
     try {
         const newUser = await usersService.saveUser(user);
         res.status(201).json(newUser)
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.post('/login', async(req, res, next) => {
+    const user = req.body;
+    try {
+        const user = await usersService.getUserByEmail(req.body);
+        res.json(user)
     } catch (e) {
         next(e)
     }
