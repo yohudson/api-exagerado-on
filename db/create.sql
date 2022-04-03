@@ -66,16 +66,31 @@ CREATE TABLE segments(
   segmento_uuid uuid default uuid_generate_v4(),
   nome varchar(100) not null,
   status boolean default true,
-  criado_em timestamp default now ()
+  criado_em timestamp default now (),
+  PRIMARY KEY (segmento_uuid)
 )
 
 -- marcas
 CREATE TABLE brands(
   marca_uuid uuid default uuid_generate_v4(),
   nome varchar(100) not null,
-  segmento varchar(100) not null,
-  descricao text,
+  segmento_uuid uuid,
   adicionado_em timestamp default now (),
   status boolean default true,
-  PRIMARY KEY (marca_uuid)
+  PRIMARY KEY (marca_uuid),
+  FOREIGN KEY (segmento_uuid) REFERENCES segments (segmento_uuid)
 )
+
+INSERT INTO brands(nome,segmento_uuid)
+VALUES ()
+RETURNING *
+
+/*
+69d08850-c079-4335-907e-8e3ed72c5fd7	Feminino
+b8d06f06-54bf-49af-86f6-30c356ae817c	Masculino
+f1f97d9f-ee62-4aa4-adf6-a70ac2e69785	Infantil
+874f9461-aaaa-411c-95ec-00941474acdd	Esporte
+65f0c818-28d9-4c68-8206-37d60c186860	Móveis
+1b23bf88-b9b8-4aff-9bfc-547907990660	Acessórios
+5f0db6ee-75bd-4bc3-b8f7-d5144494d307	Cosméticos
+*/

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const genderService = require('../service/genders.service')
 
-
 router.get('/genders', async(req, res, next) => {
     try {
         const gender = await genderService.getGenders();
