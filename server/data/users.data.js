@@ -9,14 +9,10 @@ exports.getUser = (id) => {
 }
 
 exports.getUserByEmail = (email) => {
-    console.log('passo dos dados')
-    console.log(email)
     return database.oneOrNone('SELECT * FROM users WHERE email = $1', [email.usuario]);
 }
 
 exports.saveUser = (user) => {
-    console.log('passo dados')
-    console.log(user)
     return database.one('INSERT INTO users (nome, telefone, email, data_nascimento, genero, senha) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [user.nome, user.celular, user.email, user.data_nascimento, user.genero, user.senha]);
 }
 

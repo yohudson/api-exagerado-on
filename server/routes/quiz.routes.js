@@ -12,8 +12,6 @@ router.get('/quiz/:id', async(req, res, next) => {
 });
 
 router.post('/quiz', async(req, res, next) => {
-    console.log('rota')
-    console.log(req.body)
     const quiz = req.body;
     try {
         const newQuiz = await quizService.saveQuiz(quiz);

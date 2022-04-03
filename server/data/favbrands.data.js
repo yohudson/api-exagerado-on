@@ -5,7 +5,5 @@ exports.getBrands = (id) => {
 }
 
 exports.saveBrands = (brands) => {
-    console.log('dados')
-    console.log(brands)
     return database.one(`INSERT INTO favbrands (lista_favoritos,user_uuid) VALUES ($1,$2) RETURNING *`, [brands.lista_marcas, brands.user_uuid]);
 }

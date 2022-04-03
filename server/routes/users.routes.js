@@ -22,8 +22,6 @@ router.get('/users/:id', async(req, res, next) => {
 });
 
 router.post('/users', async(req, res, next) => {
-    console.log('passo rota')
-    console.log(req.body)
     const user = req.body
     try {
         const newUser = await usersService.saveUser(user);

@@ -19,8 +19,6 @@ exports.getUserByEmail = async(email) => {
 }
 
 exports.saveUser = async(user) => {
-    console.log('passo serviço')
-    console.log(user)
     const existingUser = await usersData.getUserByEmail(user.email);
     if (existingUser) throw new Error('Usuário já existe')
     return usersData.saveUser(user);

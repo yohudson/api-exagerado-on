@@ -12,8 +12,6 @@ router.get('/favorites', async(req, res, next) => {
 });
 
 router.post('/favorites', async(req, res, next) => {
-    console.log('rotas')
-    console.log(req)
     const brand = req.body;
     try {
         const newBrand = await brandsService.saveBrands(brand);

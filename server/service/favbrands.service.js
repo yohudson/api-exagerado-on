@@ -7,7 +7,5 @@ exports.getBrands = async() => {
 }
 
 exports.saveBrands = async(brands) => {
-    console.log('serviço')
-    console.log(brands)
     return brandsData.saveBrands(brands);
 }

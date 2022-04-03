@@ -7,8 +7,6 @@ exports.getQuiz = async(id) => {
 }
 
 exports.saveQuiz = async(quiz) => {
-    console.log('serviço')
-    console.log(quiz)
     const user = quiz.user_uuid
     return quizData.saveQuiz(quiz, user);
 }
