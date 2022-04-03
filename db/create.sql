@@ -85,6 +85,21 @@ INSERT INTO brands(nome,segmento_uuid)
 VALUES ()
 RETURNING *
 
+-- marcas favoritas
+CREATE TABLE favbrands(
+  fav_uuid uuid default uuid_generate_v4(),
+  lista_favoritos TEXT NOT NULL,
+  user_uuid uuid,
+  adicionado_em timestamp default now (),
+  status boolean default true,
+  PRIMARY KEY (fav_uuid),
+  FOREIGN KEY (user_uuid) REFERENCES users (user_uuid)
+)
+
+INSERT INTO favbrands(user_uuid,lista_favoritos)
+VALUES ()
+RETURNING *
+
 /*
 69d08850-c079-4335-907e-8e3ed72c5fd7	Feminino
 b8d06f06-54bf-49af-86f6-30c356ae817c	Masculino

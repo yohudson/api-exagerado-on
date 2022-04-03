@@ -11,6 +11,7 @@ app.use('/', require('./routes/users.routes'));
 app.use('/', require('./routes/genders.routes'));
 app.use('/', require('./routes/quiz.routes'));
 app.use('/', require('./routes/brands.routes'));
+app.use('/', require('./routes/favbrands.routes'));
 app.use((error, req, res, next) => {
     if (error.message === 'Usuários não encontrados') {
         return res.status(404).send(error.message)
