@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(cors())
 app.use('/', require('./routes/users.routes'));
 app.use('/', require('./routes/genders.routes'));
+app.use('/', require('./routes/quiz.routes'));
 app.use((error, req, res, next) => {
     if (error.message === 'Usuários não encontrados') {
         return res.status(404).send(error.message)
@@ -27,6 +28,9 @@ app.use((error, req, res, next) => {
     }
     if (error.message === 'Gênero já existe') {
         return res.status(409).send(error.message)
+    }
+    if (error.message === 'Questionário não encontrado') {
+        return res.status(404).send(error.message)
     }
     res.status(500).send(error.message)
 
