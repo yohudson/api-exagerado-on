@@ -88,7 +88,7 @@ RETURNING *
 -- marcas favoritas
 CREATE TABLE favbrands(
   fav_uuid uuid default uuid_generate_v4(),
-  lista_favoritos TEXT NOT NULL,
+  lista_favoritos text [],
   user_uuid uuid,
   adicionado_em timestamp default now (),
   status boolean default true,
