@@ -5,7 +5,7 @@ const segmentsService = require('../service/segments.service')
 router.get('/segments', async(req, res, next) => {
     try {
         const segments = await segmentsService.getSegments();
-        res.json(segments)
+        res.json(segments);
     } catch (e) {
         next(e)
     }
