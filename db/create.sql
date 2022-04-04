@@ -1,11 +1,3 @@
--- gerador uuid
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- obter tabelas
-SELECT *
-FROM pg_catalog.pg_tables
-where tableowner = 'bltzqqmq'
-
 -- usuário
 CREATE TABLE users(
   user_uuid uuid DEFAULT uuid_generate_v4(),
@@ -19,6 +11,8 @@ CREATE TABLE users(
   status BOOLEAN DEFAULT TRUE,
   PRIMARY KEY (user_uuid)
 )
+
+INSERT INTO users (nome, telefone, email, data_nascimento, genero, senha) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
 
 -- questionário
 CREATE TABLE questionario (
@@ -51,10 +45,14 @@ CREATE TABLE questionario (
   PRIMARY KEY (questionario_uuid)
 )
 
+INSERT INTO quiz (horario_compras_manha, horario_compras_tarde, horario_compras_noite, conhece_evento,melhor_dia_quarta,melhor_dia_quinta ,melhor_dia_sexta ,melhor_dia_sabado ,melhor_dia_domingo ,forma_pagamento_dinheiro ,forma_pagamento_credito ,forma_pagamento_debito ,forma_pagamento_pix ,forma_pagamento_picpay ,cidade_origem ,como_soube ,fechamento_amigx ,fechamento_familia ,fechamento_namoradx ,fechamento_sozinho ,recado ,user_uuid ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22) RETURNING *
+
 -- loja
 CREATE TABLE store(
   loja_uuid uuid default uuid_generate_v4 (),
   nome varchar(100) not null,
+  nome_fantasia varchar(100) not null,
+  cnpj varchar(100) not null,
   localizacao varchar(100) not null,
   adicionado_em timestamp default now (),
   status boolean default true,
@@ -70,6 +68,8 @@ CREATE TABLE segments(
   PRIMARY KEY (segmento_uuid)
 )
 
+INSERT INTO segments (nome) VALUES ($1) RETURNING *
+
 -- marcas
 CREATE TABLE brands(
   marca_uuid uuid default uuid_generate_v4(),
@@ -81,9 +81,7 @@ CREATE TABLE brands(
   FOREIGN KEY (segmento_uuid) REFERENCES segments (segmento_uuid)
 )
 
-INSERT INTO brands(nome,segmento_uuid)
-VALUES ()
-RETURNING *
+INSERT INTO brands (nome,segmento_uuid) VALUES ($1,$2) RETURNING *
 
 -- marcas favoritas
 CREATE TABLE favbrands(
@@ -96,16 +94,12 @@ CREATE TABLE favbrands(
   FOREIGN KEY (user_uuid) REFERENCES users (user_uuid)
 )
 
-INSERT INTO favbrands(user_uuid,lista_favoritos)
-VALUES ()
-RETURNING *
+INSERT INTO favbrands (lista_favoritos,user_uuid) VALUES ($1,$2) RETURNING *
 
-/*
-69d08850-c079-4335-907e-8e3ed72c5fd7	Feminino
-b8d06f06-54bf-49af-86f6-30c356ae817c	Masculino
-f1f97d9f-ee62-4aa4-adf6-a70ac2e69785	Infantil
-874f9461-aaaa-411c-95ec-00941474acdd	Esporte
-65f0c818-28d9-4c68-8206-37d60c186860	Móveis
-1b23bf88-b9b8-4aff-9bfc-547907990660	Acessórios
-5f0db6ee-75bd-4bc3-b8f7-d5144494d307	Cosméticos
-*/
+--gêneros
+CREATE TABLE genders(
+  genero_id SERIAL PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL
+)
+
+INSERT INTO genders (nome) VALUES ($1) RETURNING *
