@@ -1,7 +1,11 @@
 const database = require('../infra/system.db')
 
-exports.getBrands = (id) => {
-    return database.query('SELECT * FROM favbrands WHERE fav_uuid = $1', [id]);
+exports.getBrands = () => {
+    return database.query('SELECT * FROM favbrands');
+}
+
+exports.getFavBrands = (id) => {
+    return database.query('SELECT * FROM favbrands WHERE user_uuid = $1', [id]);
 }
 
 exports.saveBrands = (brands) => {

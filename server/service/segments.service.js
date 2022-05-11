@@ -15,7 +15,7 @@ exports.getSegment = async(id) => {
 exports.saveSegment = async(segment) => {
     const existingSegment = await segmentsData.getSegmentByName(segment.nome);
     if (existingSegment) throw new Error('Segmento já existe')
-    return segmentsData.saveSegment(segment.nome);
+    return segmentsData.saveSegment(segment);
 }
 
 exports.deleteSegment = (id) => {
@@ -24,5 +24,5 @@ exports.deleteSegment = (id) => {
 
 exports.updateSegment = async(id, segment) => {
     await exports.getSegment(id)
-    return segmentsData.updateSegment(id, segment.nome);
+    return segmentsData.updateSegment(id, segment);
 }

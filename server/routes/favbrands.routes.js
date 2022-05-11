@@ -4,7 +4,16 @@ const brandsService = require('../service/favbrands.service')
 
 router.get('/favorites', async(req, res, next) => {
     try {
-        const brands = await favbrandsService.getBrands();
+        const brands = await brandsService.getBrands();
+        res.json(brands)
+    } catch (e) {
+        next(e)
+    }
+});
+
+router.get('/favorite/:id', async(req, res, next) => {
+    try {
+        const brands = await brandsService.getFavBrands(req.params.id);
         res.json(brands)
     } catch (e) {
         next(e)

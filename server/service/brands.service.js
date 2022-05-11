@@ -16,7 +16,7 @@ exports.getBrand = async(id) => {
 exports.saveBrand = async(brand) => {
     const existingBrand = await brandsData.getBrandByName(brand.nome);
     if (existingBrand) throw new Error('Marca já existe')
-    return brandsData.saveGender(brand);
+    return brandsData.saveBrand(brand);
 }
 
 exports.deleteBrand = (id) => {

@@ -5,7 +5,7 @@ exports.getSegments = () => {
 }
 
 exports.getSegment = (id) => {
-    return database.oneOrNone('SELECT * FROM segments WHERE segment_uuid = $1', [id]);
+    return database.oneOrNone('SELECT * FROM segments WHERE segmento_uuid = $1', [id]);
 }
 
 exports.getSegmentByName = (nome) => {
@@ -13,13 +13,13 @@ exports.getSegmentByName = (nome) => {
 }
 
 exports.saveSegment = (segments) => {
-    return database.one('INSERT INTO segments (nome) VALUES ($1) RETURNING *', [segments]);
+    return database.one('INSERT INTO segments (nome,status) VALUES ($1,$2) RETURNING *', [segments.nome, segments.status]);
 }
 
 exports.deleteSegment = (id) => {
-    return database.none('DELETE FROM segments WHERE segment_uuid = $1', [id]);
+    return database.none('DELETE FROM segments WHERE segmento_uuid = $1', [id]);
 }
 
 exports.updateSegment = (id, segments) => {
-    return database.none('UPDATE segments SET nome = $1 WHERE segment_uuid = $2', [segments, id]);
+    return database.none('UPDATE segments SET nome = $1, status = $2 WHERE segmento_uuid = $3', [segments.nome, segments.status, id]);
 }
