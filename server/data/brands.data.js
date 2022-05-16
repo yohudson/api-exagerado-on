@@ -1,7 +1,7 @@
 const database = require('../infra/system.db')
 
 exports.getBrands = () => {
-    return database.query('SELECT * FROM brands');
+    return database.query('SELECT * FROM brands ORDER BY nome ASC');
 }
 
 exports.getBrand = (id) => {

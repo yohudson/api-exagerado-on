@@ -1,7 +1,7 @@
 const database = require('../infra/system.db')
 
 exports.getSegments = () => {
-    return database.query('SELECT * FROM segments');
+    return database.query('SELECT * FROM segments ORDER BY nome ASC');
 }
 
 exports.getSegment = (id) => {

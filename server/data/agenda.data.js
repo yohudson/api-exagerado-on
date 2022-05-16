@@ -1,7 +1,7 @@
 const database = require('../infra/system.db')
 
 exports.getAgendas = () => {
-    return database.query('SELECT * FROM agenda');
+    return database.query('SELECT * FROM agenda ORDER BY data_hora_inicio');
 }
 
 exports.getAgenda = (id) => {
