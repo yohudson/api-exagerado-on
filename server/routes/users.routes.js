@@ -21,6 +21,15 @@ router.get('/users/:id', async(req, res, next) => {
     }
 });
 
+router.get('/user-email/:email', async(req, res, next) => {
+    try {
+        const user = await usersService.getUserByEmail(req.params.email);
+        res.json(user)
+    } catch (e) {
+        next(e)
+    }
+});
+
 router.post('/users', async(req, res, next) => {
     const user = req.body
     try {
@@ -33,8 +42,9 @@ router.post('/users', async(req, res, next) => {
 
 router.post('/login', async(req, res, next) => {
     const user = req.body;
+    console.log(user)
     try {
-        const user = await usersService.getUserByEmail(req.body);
+        const user = await usersService.getUserByEmail(req.body.usuario);
         res.json(user)
     } catch (e) {
         next(e)
