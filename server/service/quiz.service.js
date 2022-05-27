@@ -6,6 +6,12 @@ exports.getQuiz = async(id) => {
     return quiz;
 }
 
+exports.getAllQuiz = async() => {
+    const quiz = await quizData.getAllQuiz();
+    if (!quiz) throw new Error('Questionários não encontrados');
+    return quiz;
+}
+
 exports.saveQuiz = async(quiz) => {
     const user = quiz.user_uuid
     return quizData.saveQuiz(quiz, user);

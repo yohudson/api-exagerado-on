@@ -11,6 +11,15 @@ router.get('/quiz/:id', async(req, res, next) => {
     }
 });
 
+router.get('/all-quiz/', async(req, res, next) => {
+    try {
+        const quiz = await quizService.getAllQuiz();
+        res.json(quiz)
+    } catch (e) {
+        next(e)
+    }
+});
+
 router.post('/quiz', async(req, res, next) => {
     const quiz = req.body;
     try {
