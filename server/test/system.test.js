@@ -70,7 +70,7 @@ test('should delete an user', async() => {
     expect(users).toHaveLength(0);
 })
 
-//generos
+//gêneros
 test('should save and get genders', async() => {
     const gender1 = await genderService.saveGender({ nome: generate(1) })
     const gender2 = await genderService.saveGender({ nome: generate(1) })
