@@ -30,7 +30,7 @@ test('criar, atualizar e apagar usuário', async() => {
 })
 
 //marca
-test.only('criar, atualizar e apagar marca', async() => {
+test('criar, atualizar e apagar marca', async() => {
     const brand = { nome: generate(3), segmento_uuid: generate(3), lista_segmento_uuid: generate(3), status: true };
     const response = await brandService.saveBrand(brand)
     const returnedBrand = response;
@@ -42,13 +42,14 @@ test.only('criar, atualizar e apagar marca', async() => {
 })
 
 //loja
-test.only('criar, atualizar e apagar loja', async() => {
-    const brand = { nome: generate(3), segmento_uuid: generate(3), lista_segmento_uuid: generate(3), status: true };
-    const response = await storeService.saveBrand(brand)
-    const returnedBrand = response;
-    returnedBrand.nome = generate(3)
-    returnedBrand.segmento_uuid = generate(3)
-    const responseUpdt = await storeService.updateBrand(returnedBrand.marca_uuid, returnedBrand);
-    const updatedBrand = await storeService.getBrand(returnedBrand.marca_uuid)
-    await storeService.deleteBrand(returnedBrand.marca_uuid)
+test('criar, atualizar e apagar loja', async() => {
+    const store = { nome_loja: generate(4), cnpj: generate(4), segmentos: [generate(3)], marcas_vendidas: [generate(6)], nome_responsavel: generate(3), telefone_contato: '27981185276', email_contato: generate(3), status: true, localizacao: generate(2) };
+    const response = await storeService.saveStore(store)
+    const returnedStore = response;
+    returnedStore.cnpj = returnedStore.loja_cnpj
+    returnedStore.nome_loja = generate(3)
+    returnedStore.localizacao = generate(2)
+    const responseUpdt = await storeService.updateStore(returnedStore);
+    const updatedStore = await storeService.getStore(returnedStore.loja_uuid)
+    await storeService.deleteStore(returnedStore.loja_uuid)
 })
