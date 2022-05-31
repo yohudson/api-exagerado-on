@@ -1,7 +1,8 @@
 const crypto = require('crypto');
 const axios = require('axios');
 const userService = require('../service/users.service');
-const genderService = require('../service/genders.service');
+const brandService = require('../service/brands.service');
+const storeService = require('../service/stores.service');
 
 const generate = (val) => {
     return crypto.randomBytes(val).toString('hex');
@@ -11,115 +12,43 @@ const request = (url, method, data) => {
     return axios({ url, method, data, validateStatus: false })
 }
 
-//usuarios
-test('should get users', async() => {
-    const user1 = await userService.saveUser({ nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) })
-    const user2 = await userService.saveUser({ nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) })
-    const response = await request('http://localhost:3000/users', 'GET');
-    expect(response.status).toBe(200);
-    const users = response.data;
-    expect(users).toHaveLength(2)
-    await userService.deleteUser(user1.user_uuid)
-    await userService.deleteUser(user2.user_uuid)
+//usuario
+test('criar, atualizar e apagar usuário', async() => {
+    const user = { nome: generate(3), telefone: generate(4), email: generate(3), data_nascimento: '1989-04-22', genero: '15', senha: generate(3), cad_google: false };
+    const response = await userService.saveUser(user);
+    expect(response.status).toBe(true);
+    const returnUser = response;
+    returnUser.nome = generate(3);
+    returnUser.telefone = generate(4);
+    returnUser.email = generate(3);
+    returnUser.senha = generate(3);
+    const responseUpdt = await userService.updateUser(returnUser.user_uuid, returnUser);
+    const updatedUser = await userService.getUser(returnUser.user_uuid)
+    expect(updatedUser.nome).toBe(returnUser.nome);
+    expect(updatedUser.email).toBe(returnUser.email);
+    await userService.deleteUser(updatedUser.user_uuid);
 })
 
-test('should save new users', async() => {
-    const user = { user_uuid: generate(3), nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) };
-    const response = await request('http://localhost:3000/users', 'POST', user);
-    expect(response.status).toBe(201);
-    const users = response.data;
-    expect(users.nome).toBe(user.nome);
-    expect(users.email).toBe(user.email);
-    await userService.deleteUser(users.user_uuid);
+//marca
+test.only('criar, atualizar e apagar marca', async() => {
+    const brand = { nome: generate(3), segmento_uuid: generate(3), lista_segmento_uuid: generate(3), status: true };
+    const response = await brandService.saveBrand(brand)
+    const returnedBrand = response;
+    returnedBrand.nome = generate(3)
+    returnedBrand.segmento_uuid = generate(3)
+    const responseUpdt = await brandService.updateBrand(returnedBrand.marca_uuid, returnedBrand);
+    const updatedBrand = await brandService.getBrand(returnedBrand.marca_uuid)
+    await brandService.deleteBrand(returnedBrand.marca_uuid)
 })
 
-test('should not save new users', async() => {
-    const user = { user_uuid: generate(3), nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) };
-    const response1 = await request('http://localhost:3000/users', 'POST', user);
-    const response2 = await request('http://localhost:3000/users', 'POST', user);
-    expect(response2.status).toBe(409);
-    const users = response1.data;
-    await userService.deleteUser(users.user_uuid);
-})
-
-test('should update an user', async() => {
-    const user = await userService.saveUser({ user_uuid: generate(3), nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) });
-    user.nome = generate(3);
-    user.telefone = generate(3);
-    user.email = generate(3);
-    user.senha = generate(3);
-    const response = await request(`http://localhost:3000/users/${user.user_uuid}`, 'PUT', user);
-    expect(response.status).toBe(204)
-    const updateUser = await userService.getUser(user.user_uuid)
-    expect(updateUser.nome).toBe(user.nome);
-    expect(updateUser.email).toBe(user.email);
-    await userService.deleteUser(updateUser.user_uuid);
-})
-
-test('should not update an user', async() => {
-    const user = { user_uuid: 1 };
-    const response = await request(`http://localhost:3000/users/${user.user_uuid}`, 'PUT', user);
-    expect(response.status).toBe(404)
-})
-
-test('should delete an user', async() => {
-    const user = await userService.saveUser({ user_uuid: generate(3), nome: generate(3), telefone: generate(3), email: generate(3), data_nascimento: '1989-04-22', genero: '1', senha: generate(3) });
-    const response = await request(`http://localhost:3000/users/${user.user_uuid}`, 'DELETE');
-    expect(response.status).toBe(204)
-    const users = await userService.getUsers();
-    expect(users).toHaveLength(0);
-})
-
-//gêneros
-test('should save and get genders', async() => {
-    const gender1 = await genderService.saveGender({ nome: generate(1) })
-    const gender2 = await genderService.saveGender({ nome: generate(1) })
-    const response = await request('http://localhost:3000/genders', 'GET');
-    expect(response.status).toBe(200);
-    const genders = response.data;
-    expect(genders).toHaveLength(2)
-    await genderService.deleteGender(gender1.genero_id)
-    await genderService.deleteGender(gender2.genero_id)
-})
-
-test('should save new gender', async() => {
-    const gender = { nome: generate(2) };
-    const response = await request('http://localhost:3000/genders', 'POST', gender);
-    expect(response.status).toBe(201);
-    const genders = response.data;
-    expect(genders.nome).toBe(gender.nome);
-    await genderService.deleteGender(genders.genero_id);
-})
-
-test('should not save new genders', async() => {
-    const gender = { nome: generate(2) };
-    const response1 = await request('http://localhost:3000/genders', 'POST', gender);
-    const response2 = await request('http://localhost:3000/genders', 'POST', gender);
-    expect(response2.status).toBe(409);
-    const genders = response1.data;
-    await genderService.deleteGender(genders.genero_id);
-})
-
-test('should update an gender', async() => {
-    const gender = await genderService.saveGender({ nome: generate(1) });
-    gender.nome = generate(3);
-    const response = await request(`http://localhost:3000/gender/${gender.genero_id}`, 'PUT', gender);
-    expect(response.status).toBe(204)
-    const updateGender = await genderService.getGender(gender.genero_id)
-    expect(updateGender.nome).toBe(gender.nome);
-    await genderService.deleteGender(updateGender.genero_id);
-})
-
-test('should not update a gender', async() => {
-    const gender = { genero_id: 1 };
-    const response = await request(`http://localhost:3000/gender/${gender.genero_id}`, 'PUT', gender);
-    expect(response.status).toBe(404)
-})
-
-test('should delete a gender', async() => {
-    const gender = await genderService.saveGender({ nome: generate(2) });
-    const response = await request(`http://localhost:3000/gender/${gender.genero_id}`, 'DELETE');
-    expect(response.status).toBe(204)
-    const genders = await genderService.getGenders();
-    expect(genders).toHaveLength(0);
+//loja
+test.only('criar, atualizar e apagar loja', async() => {
+    const brand = { nome: generate(3), segmento_uuid: generate(3), lista_segmento_uuid: generate(3), status: true };
+    const response = await storeService.saveBrand(brand)
+    const returnedBrand = response;
+    returnedBrand.nome = generate(3)
+    returnedBrand.segmento_uuid = generate(3)
+    const responseUpdt = await storeService.updateBrand(returnedBrand.marca_uuid, returnedBrand);
+    const updatedBrand = await storeService.getBrand(returnedBrand.marca_uuid)
+    await storeService.deleteBrand(returnedBrand.marca_uuid)
 })

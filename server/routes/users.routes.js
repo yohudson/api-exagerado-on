@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const usersService = require('../service/users.service')
-
+const usersService = require('../service/users.service');
 
 router.get('/users', async(req, res, next) => {
     try {
@@ -42,7 +41,6 @@ router.post('/users', async(req, res, next) => {
 
 router.post('/login', async(req, res, next) => {
     const user = req.body;
-    console.log(user)
     try {
         const user = await usersService.getUserByEmail(req.body.usuario);
         res.json(user)

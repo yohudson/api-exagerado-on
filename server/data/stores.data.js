@@ -17,7 +17,6 @@ exports.getStoreByCnpj = (cnpj) => {
 }
 
 exports.saveStore = (store) => {
-    console.log(store)
     return database.one(`INSERT INTO stores(loja_nome,loja_cnpj,lista_segmentos,marcas_vendidas,nome_responsavel,telefone_contato,email_contato,status,localizacao) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *`, [store.nome_loja, store.cnpj, store.segmentos, store.marcas_vendidas, store.nome_responsavel, store.telefone_contato, store.email_contato, store.status, store.localizacao]);
 }
 
@@ -26,7 +25,6 @@ exports.deleteStore = (id) => {
 }
 
 exports.updateStore = (store) => {
-    console.log(store)
     return database.none(`UPDATE stores SET loja_nome = $1, loja_cnpj = $2, lista_segmentos = $3, marcas_vendidas = $4, nome_responsavel = $5, telefone_contato = $6, email_contato = $7, status = $8, localizacao = $10 WHERE loja_uuid = $9`, [store.nome_loja, store.cnpj, store.segmentos, store.marcas_vendidas, store.nome_responsavel, store.telefone_contato, store.email_contato, store.status, store.loja_uuid, store.localizacao]);
 }
 

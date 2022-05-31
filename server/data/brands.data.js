@@ -13,7 +13,6 @@ exports.getBrandByName = (nome) => {
 }
 
 exports.saveBrand = (brand) => {
-    console.log(brand)
     return database.one(`INSERT INTO brands (nome,segmento_uuid,lista_segmento_uuid,status) VALUES ($1,$2,$3,$4) RETURNING *`, [brand.nome, brand.segmento, brand.lista_segmentos, brand.status]);
 }
 

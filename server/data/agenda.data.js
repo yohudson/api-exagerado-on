@@ -25,7 +25,6 @@ exports.deleteAgenda = (id) => {
 }
 
 exports.updateAgenda = (agenda) => {
-    console.log(agenda)
     return database.none(`UPDATE agenda SET atracao_uuid = $1,atracao_nome = $2,data_hora_inicio = $3,data_hora_fim = $4,local = $5,status = $6,descricao = $7 WHERE agenda_uuid = $8`, [agenda.atracao_uuid, agenda.atracao_nome, agenda.data_hora_inicio, agenda.data_hora_fim, agenda.local, agenda.status, agenda.descricao, agenda.uuid]);
 }
 

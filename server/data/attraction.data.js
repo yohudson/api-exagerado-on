@@ -13,7 +13,6 @@ exports.getAttractionByName = (nome) => {
 }
 
 exports.saveAttraction = (attraction) => {
-    console.log(attraction)
     return database.one(`INSERT INTO attractions(atracao_nome,nome_contato,telefone_contato,email_contato,status) VALUES ($1,$2,$3,$4,$5) RETURNING *`, [attraction.atracao_nome, attraction.nome_contato, attraction.telefone_contato, attraction.email_contato, attraction.status]);
 }
 
@@ -22,7 +21,6 @@ exports.deleteAttraction = (id) => {
 }
 
 exports.updateAttraction = (attraction) => {
-    console.log(attraction)
     return database.none(`UPDATE attractions SET atracao_nome = $1,nome_contato = $2, telefone_contato = $3, email_contato = $4, status = $5 WHERE atracao_uuid = $6`, [attraction.atracao_nome, attraction.nome_contato, attraction.telefone_contato, attraction.email_contato, attraction.status, attraction.atracao_uuid]);
 }
 

@@ -30,5 +30,5 @@ exports.deleteUser = (id) => {
 
 exports.updateUser = async(id, user) => {
     await exports.getUser(id)
-    return usersData.updateUser(id, user);
+    return usersData.updateUser(user);
 }
